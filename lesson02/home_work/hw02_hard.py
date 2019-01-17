@@ -99,16 +99,6 @@ task2(date1)
 # Выход: 5 3
 
 
-def task3(room):
-	pass
-
-
-
-
-
-task3(13)
-
-
 N = int(input('Введите номер комнаты'))
 
 
@@ -116,17 +106,18 @@ stage = 1
 room = 1
 i = 1
 dom = {}
-while i < 200:
+while i < 200000000:
+	res = False
 	square = room
 	for rm in range(square):
 		dom.update({stage:[x for x in range(i, i+room)]})
+		if N in dom[stage]:
+			res = True
+			break
 		stage += 1
 		i+=room
-	room += 1
-
-f = 0
-for st in range(1, stage+1):
-	if N in dom[st]:
-		print('Комнада находится на {} этаже, {} слева'.format(st, dom[st].index(N)+1))
+	if res is True:
+		print('Комнада находится на {} этаже, {} слева'.format (stage, dom[stage].index(N) + 1))
 		break
+	room += 1
 
