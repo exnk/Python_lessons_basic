@@ -1,9 +1,29 @@
+import datetime
+
+
 # Задание-1: уравнение прямой вида y = kx + b задано в виде строки.
 # Определить координату y точки с заданной координатой x.
 
 equation = 'y = -12x + 11111140.2121'
 x = 2.5
 # вычислите и выведите y
+
+
+def task1(func, x):  # по идее такой вариант позволит вычислять любые значения
+	eq = func.split('=')[1]
+	params = list(eq.split(' '))
+	params.remove('') if '' in params else None
+
+	k = params[0].replace('x', '')
+	k = float(k)
+	b = float(params[2])
+	if params[1] == '-':
+		b = -b
+	y = k*x + b
+	return y
+
+
+print(task1(equation, x))
 
 
 # Задание-2: Дата задана в виде строки формата 'dd.mm.yyyy'.
@@ -19,11 +39,24 @@ x = 2.5
 # Пример корректной даты
 date = '01.11.1985'
 
-# Примеры некорректных дат
-date = '01.22.1001'
-date = '1.12.1001'
-date = '-2.10.3001'
 
+def task2(dt):
+	try:
+		datetime.datetime.strptime(dt, '%d.%m.%Y')
+	except ValueError:
+		print('Вы ввели некорректную дату')
+	else:
+		print('Дата {} корректна'.format(dt))
+
+# Примеры некорректных дат
+
+
+date1 = '01.22.1001'
+date2 = '1.12.1001'
+date3 = '-2.10.3001'
+
+task2(date)
+task2(date1)
 
 # Задание-3: "Перевёрнутая башня" (Задача олимпиадного уровня)
 #
@@ -54,3 +87,26 @@ date = '-2.10.3001'
 #
 # Вход: 11
 # Выход: 5 3
+
+
+N = int(input('Введите номер комнаты'))
+
+
+stage = 1
+room = 1
+i = 1
+dom = {}
+while i < 200:
+	square = room
+	for rm in range(square):
+		dom.update({stage:[x for x in range(i, i+room)]})
+		stage += 1
+		i+=room
+	room += 1
+
+f = 0
+for st in range(1, stage+1):
+	if N in dom[st]:
+		print('Комнада находится на {} этаже, {} слева'.format(st, dom[st].index(N)+1))
+		break
+
