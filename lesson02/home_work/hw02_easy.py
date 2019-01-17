@@ -30,7 +30,7 @@ while True:
 print(len(L))
 try:
 	assert len(L) > 0
-except:
+except ValueError:
 	print('Вы не ввели ни одного элемента')
 else:
 	task1(L)

@@ -9,7 +9,7 @@ x = 2.5
 # вычислите и выведите y
 
 
-def task1(func, x):  # по идее такой вариант позволит вычислять любые значения
+def task1(func, x_f):  # по идее такой вариант позволит вычислять любые значения
 	eq = func.split('=')[1]
 	params = list(eq.split(' '))
 	params.remove('') if '' in params else None
@@ -19,7 +19,7 @@ def task1(func, x):  # по идее такой вариант позволит 
 	b = float(params[2])
 	if params[1] == '-':
 		b = -b
-	y = k*x + b
+	y = k*x_f + b
 	return y
 
 
@@ -49,9 +49,6 @@ def task2(dt):
 		print('Дата {} корректна'.format(dt))
 
 # Примеры некорректных дат
-date = '01.22.1001'
-date = '1.12.1001'
-date = '-2.10.3001'
 
 
 date1 = '01.22.1001'
@@ -61,12 +58,6 @@ date3 = '-2.10.3001'
 task2(date)
 task2(date1)
 
-date1 = '01.22.1001'
-date2 = '1.12.1001'
-date3 = '-2.10.3001'
-
-task2(date)
-task2(date1)
 
 # Задание-3: "Перевёрнутая башня" (Задача олимпиадного уровня)
 #
@@ -99,16 +90,6 @@ task2(date1)
 # Выход: 5 3
 
 
-def task3(room):
-	pass
-
-
-
-
-
-task3(13)
-
-
 N = int(input('Введите номер комнаты'))
 
 
@@ -116,17 +97,17 @@ stage = 1
 room = 1
 i = 1
 dom = {}
-while i < 200:
+while i < 200000000:
+	res = False
 	square = room
 	for rm in range(square):
-		dom.update({stage:[x for x in range(i, i+room)]})
+		dom.update({stage: [x for x in range(i, i+room)]})
+		if N in dom[stage]:
+			res = True
+			break
 		stage += 1
-		i+=room
-	room += 1
-
-f = 0
-for st in range(1, stage+1):
-	if N in dom[st]:
-		print('Комнада находится на {} этаже, {} слева'.format(st, dom[st].index(N)+1))
+		i += room
+	if res is True:
+		print('Комнада находится на {} этаже, {} слева'.format(stage, dom[stage].index(N) + 1))
 		break
-
+	room += 1
