@@ -101,7 +101,6 @@ task2(date1)
 
 N = int(input('Введите номер комнаты'))
 
-
 stage = 1
 room = 1
 i = 1
