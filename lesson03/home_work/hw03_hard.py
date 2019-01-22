@@ -13,6 +13,7 @@ from fractions import Fraction
 
 
 def fract(string):
+	"""Расчитывает только для 2ух дробей((("""
 	string = str(string).split(' ')
 	num1 = Fraction(*list(map(int, string[0].split('/'))))
 	num2 = Fraction(*list(map(int, string[-1].split('/'))))
@@ -47,16 +48,36 @@ print(fract('5/6 + 4/6'))
 # они получают удвоенную ЗП, пропорциональную норме.
 # Кол-во часов, которые были отработаны, указаны в файле "data/hours_of.txt"
 
-with open('data/workers.txt', encoding='utf-8') as w:
-	w_lines = [' '.join(line.split()) for line in w]
+with open('data/workers.txt', encoding='utf-8') as w:  # with для того чтоб файл после отработки закрывался автоматом
 	with open('data/hours_of.txt', encoding='utf-8') as h:
+		w_lines = [' '.join(line.split()) for line in w]
 		h_lines = [' '.join(line.split()) for line in h]
 		del h_lines[0]
 		del w_lines[0]
-		print(w_lines, h_lines)
+		workers = dict()
+		for elm in h_lines:  # создаем массив сотрудников
+			e = elm.split(' ')
+			worker = ' '.join([e[0], e[1]])
+			for w in w_lines:
+				if worker in w:
+					w2 = w.split(' ')
+					workers.update({worker: {'worked': int(e[-1]), 'price': int(w2[2]),
+											'rate': int(w2[-1]), 'salary': None}})
+
+		for worker in workers.keys():  # просчитываем зарплату
+			if workers[worker]['worked'] > workers[worker]['rate']:
+				conversion = workers[worker]['worked'] - workers[worker]['rate']
+				h_salary = workers[worker]['price'] / workers[worker]['rate'] * 2
+				workers[worker]['salary'] = round(h_salary*conversion + workers[worker]['price'], 2)
+			else:
+				conversion = workers[worker]['rate'] - workers[worker]['worked']
+				h_salary = workers[worker]['price'] / workers[worker]['rate']
+				workers[worker]['salary'] = round(workers[worker]['price'] - h_salary*conversion, 2)
 
 
-print('    q      2    a    '.strip())
+for worker in workers.keys():
+	print('Зарплата сотрудника {} составляет {}'.format(worker, workers[worker]['salary']), end='\n')
+
 
 # Задание-3:
 # Дан файл ("data/fruits") со списком фруктов.
@@ -70,3 +91,23 @@ print('    q      2    a    '.strip())
 # Подсказка:
 # Чтобы получить список больших букв русского алфавита:
 # print(list(map(chr, range(ord('А'), ord('Я')+1))))
+
+def fruit_sort(file_path):
+	charset = list(map(chr, range(ord('А'), ord('Я')+1)))
+	char_dict = dict.fromkeys(charset, [])
+	with open(file_path, encoding='utf-8') as f:
+		fruits = list(filter(None, [x.strip() for x in f if x]))
+		for fruit in fruits:
+			st = fruit[0].upper()
+			dlist = char_dict[st]
+			char_dict[st] = dlist + [fruit]
+
+	for key in char_dict.keys():
+		if len(char_dict[key]) == 0:
+			pass
+		else:
+			with open('data/fruits/fruit_by_{}.txt'.format(key), 'w', encoding='utf-8') as f:
+				f.write('\n'.join(char_dict[key]))
+
+a = fruit_sort('data/fruits.txt')
+
