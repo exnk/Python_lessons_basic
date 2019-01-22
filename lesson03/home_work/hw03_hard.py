@@ -9,15 +9,54 @@
 # Ввод: -2/3 - -2
 # Вывод: 1 1/3
 
+from fractions import Fraction
+
+
+def fract(string):
+	string = str(string).split(' ')
+	num1 = Fraction(*list(map(int, string[0].split('/'))))
+	num2 = Fraction(*list(map(int, string[-1].split('/'))))
+	if string[1] is '+':
+		res = num1 + num2
+	elif string[1] is '*':
+		res = num1 * num2
+	elif string[1] is '/':
+		res = num1 / num2
+	elif string[1] is '-':
+		res = num1 - num2
+	else:
+		return 'В выражении отсутствует знак операции'
+	print(res)
+	if res > 1:
+		res = str(res).split('/')
+		main = int(res[0]) // int(res[1])
+		sub = int(res[0]) % int(res[1])
+		return '{} {}/{}'.format(main, sub, res[1])
+	else:
+		return res
+
+
+print(fract('5/6 + 4/6'))
+
 
 # Задание-2:
-# Дана ведомость расчета заработной платы (файл "data/workers").
+# Дана ведомость расчета заработной платы (файл "data/workers.txt").
 # Рассчитайте зарплату всех работников, зная что они получат полный оклад,
 # если отработают норму часов. Если же они отработали меньше нормы,
 # то их ЗП уменьшается пропорционально, а за заждый час переработки
 # они получают удвоенную ЗП, пропорциональную норме.
-# Кол-во часов, которые были отработаны, указаны в файле "data/hours_of"
+# Кол-во часов, которые были отработаны, указаны в файле "data/hours_of.txt"
 
+with open('data/workers.txt', encoding='utf-8') as w:
+	w_lines = [' '.join(line.split()) for line in w]
+	with open('data/hours_of.txt', encoding='utf-8') as h:
+		h_lines = [' '.join(line.split()) for line in h]
+		del h_lines[0]
+		del w_lines[0]
+		print(w_lines, h_lines)
+
+
+print('    q      2    a    '.strip())
 
 # Задание-3:
 # Дан файл ("data/fruits") со списком фруктов.

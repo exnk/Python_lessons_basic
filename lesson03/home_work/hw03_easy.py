@@ -4,13 +4,14 @@
 # Округление должно происходить по математическим правилам (0.6 --> 1, 0.4 --> 0).
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
-def my_round(number, ndigits):
-    pass
+
+def my_round(number, ndigits):  # Возвращаем округленное число
+	return '{0:.{1}f}'.format(number, ndigits)
 
 
 print(my_round(2.1234567, 5))
 print(my_round(2.1999967, 5))
-print(my_round(2.9999967, 5))
+print(my_round(2.9999967, 6))
 
 
 # Задание-2:
@@ -20,9 +21,20 @@ print(my_round(2.9999967, 5))
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
 def lucky_ticket(ticket_number):
-    pass
+	try:  # Проверяем что билет нам подходит и задан правильно
+		assert int(ticket_number)
+		assert len(str(ticket_number)) % 2 == 0
+
+	except AssertionError:  # Возвращаем что билет нам не подходит
+		return 'Нечетное количество знаков или присутствуют нечисловые символы'
+	else:  # при корректных условиях возвращаем результат
+		st = str(ticket_number)
+		left = [int(x) for x in st[0:int(len(st)/2)]]
+		right = [int(x) for x in st[int(len(st)/2)::]]
+		return "Билет счастливый" if sum(left) == sum(right) else 'Билет не счастливый'
 
 
 print(lucky_ticket(123006))
 print(lucky_ticket(12321))
 print(lucky_ticket(436751))
+print(lucky_ticket(123321))
