@@ -6,9 +6,33 @@
 # квадратами элементов исходного списка
 # [1, 2, 4, 0] --> [1, 4, 16, 0]
 
+
+def reverse(ls):
+	return [pow(x, 2) for x in ls]
+
+
+try:
+	ls = list(map(int, input('Введите значения спеиска через пробел').split(' ')))
+except ValueError:
+	print('1 или несколько значений не являются цифрами')
+else:
+	print(reverse(ls))
+
 # Задание-2:
 # Даны два списка фруктов.
 # Получить список фруктов, присутствующих в обоих исходных списках.
+
+
+def diff(list1, list2):
+	st1 = set(list1)
+	st2 = set(list2)
+	return list(st1.intersection(st2))
+
+
+lst1 = input('Введите первый список фруктов').split(' ')
+lst2 = input('Введите второй список фруктов').split(' ')
+
+print(diff(lst1, lst2))
 
 # Задание-3:
 # Дан список, заполненный произвольными числами.
@@ -16,3 +40,12 @@
 # + Элемент кратен 3
 # + Элемент положительный
 # + Элемент не кратен 4
+
+
+def rt_list(list):
+	return [x for x in list if x % 3 == 0 and x > 0 and x % 4 != 0]
+
+
+ls = list(map(int, input('Введите значения списка через пробел').split(' ')))
+
+print(rt_list(ls))
