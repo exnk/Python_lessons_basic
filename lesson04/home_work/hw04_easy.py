@@ -48,4 +48,5 @@ def rt_list(list):
 
 ls = list(map(int, input('Введите значения списка через пробел').split(' ')))
 
+
 print(rt_list(ls))
