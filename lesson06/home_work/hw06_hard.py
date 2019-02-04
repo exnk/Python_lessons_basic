@@ -50,3 +50,28 @@ work_hours = {key: value for key, value in map(parse, h_list[1:])}
 real_salaries = {worker.fullname: worker.calc_salary() for worker in workers}
 
 print(real_salaries)
+
+
+import pandas
+
+
+class PandaSalary:
+	def __init__(self, base1_path, base2_path):
+		with open(base1_path, 'r', encoding='utf-8') as b1:
+			l1 = b1.readlines()
+			self.file1 = self.__file_to_csv(l1)
+		with open(base2_path, 'r', encoding='utf-8') as b2:
+			l2 = b2.readlines()
+			self.file2 = l2
+
+	def __file_to_csv(self, file):
+		new_lst = []
+		for i in file:
+			new_lst.append(' '.join(i.split()))
+		return new_lst
+
+p = PandaSalary('data/workers.txt', 'data/hours_of.txt')
+print(p.file1)
+
+
+
